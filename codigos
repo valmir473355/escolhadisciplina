@@ -1,0 +1,255 @@
+//PYton
+
+# Dicionário para armazenar dados das disciplinas
+disciplinas = {
+    1: {"nome": "Cálculo de uma Variável", "notas": []},
+    2: {"nome": "Bases de Programação", "notas": []},
+    3: {"nome": "Modelagem de Novos Negócios", "notas": []},
+    4: {"nome": "Paradigmas de Linguagens de Programação", "notas": []}
+}
+
+def exibir_menu():
+    print("\nEscolha sua Disciplina")
+    print("+------------------------------------------+")
+    print("| [1] Cálculo de uma Variável              |")
+    print("| [2] Bases de Programação                 |")
+    print("| [3] Modelagem de Novos Negócios          |")
+    print("| [4] Paradigmas de Linguagens de Programação |")
+    print("+------------------------------------------+")
+    escolha = int(input("Qual a sua escolha? "))
+    return escolha
+
+def registrar_escolha():
+    while True:
+        escolha = exibir_menu()
+        
+        # Verifica se a escolha é válida
+        if escolha in disciplinas:
+            nota = float(input(f"Informe sua média em {disciplinas[escolha]['nome']}: "))
+            disciplinas[escolha]["notas"].append(nota)
+        else:
+            print("Escolha inválida. Tente novamente.")
+            continue
+        
+        # Pergunta se há mais alunos a serem registrados
+        continuar = input("Registrar outro aluno? (s/n): ")
+        if continuar.lower() != 's':
+            break
+
+def gerar_relatorio():
+    print("\nRelatório Estatístico")
+    print("----------------------")
+    
+    total_alunos = 0
+    maior_adesao = 0
+    disciplina_mais_popular = ""
+
+    for key, dados in disciplinas.items():
+        qtd_alunos = len(dados["notas"])
+        total_alunos += qtd_alunos
+        media = sum(dados["notas"]) / qtd_alunos if qtd_alunos > 0 else 0
+
+        print(f"Disciplina: {dados['nome']}")
+        print(f" - Total de alunos: {qtd_alunos}")
+        print(f" - Média das médias: {media:.2f}\n")
+        
+        if qtd_alunos > maior_adesao:
+            maior_adesao = qtd_alunos
+            disciplina_mais_popular = dados["nome"]
+
+    print(f"Total de alunos na turma: {total_alunos}")
+    print(f"Disciplina com maior adesão: {disciplina_mais_popular}")
+
+# Execução do programa
+registrar_escolha()
+gerar_relatorio()
+
+
+
+
+// linguagem C
+
+
+#include <stdio.h>
+
+#define NUM_DISCIPLINAS 4
+
+typedef struct {
+    char nome[50];
+    float notas[100];
+    int qtdAlunos;
+} Disciplina;
+
+void inicializarDisciplinas(Disciplina disciplinas[]) {
+    strcpy(disciplinas[0].nome, "Cálculo de uma Variável");
+    strcpy(disciplinas[1].nome, "Bases de Programação");
+    strcpy(disciplinas[2].nome, "Modelagem de Novos Negócios");
+    strcpy(disciplinas[3].nome, "Paradigmas de Linguagens de Programação");
+    for (int i = 0; i < NUM_DISCIPLINAS; i++) {
+        disciplinas[i].qtdAlunos = 0;
+    }
+}
+
+void registrarEscolha(Disciplina disciplinas[]) {
+    int escolha;
+    float nota;
+    while (1) {
+        printf("\nEscolha sua Disciplina:\n");
+        printf("1. Cálculo de uma Variável\n2. Bases de Programação\n");
+        printf("3. Modelagem de Novos Negócios\n4. Paradigmas de Linguagens de Programação\n");
+        printf("Escolha: ");
+        scanf("%d", &escolha);
+        
+        if (escolha < 1 || escolha > NUM_DISCIPLINAS) {
+            printf("Escolha inválida. Tente novamente.\n");
+            continue;
+        }
+        
+        printf("Informe sua média na disciplina %s: ", disciplinas[escolha - 1].nome);
+        scanf("%f", &nota);
+        
+        disciplinas[escolha - 1].notas[disciplinas[escolha - 1].qtdAlunos] = nota;
+        disciplinas[escolha - 1].qtdAlunos++;
+
+        char continuar;
+        printf("Registrar outro aluno? (s/n): ");
+        scanf(" %c", &continuar);
+        if (continuar == 'n' || continuar == 'N') break;
+    }
+}
+
+void gerarRelatorio(Disciplina disciplinas[]) {
+    int totalAlunos = 0, maiorAdesao = 0;
+    char *disciplinaMaisPopular = "";
+    
+    printf("\nRelatório Estatístico:\n");
+    for (int i = 0; i < NUM_DISCIPLINAS; i++) {
+        int qtdAlunos = disciplinas[i].qtdAlunos;
+        totalAlunos += qtdAlunos;
+        float somaNotas = 0;
+        
+        for (int j = 0; j < qtdAlunos; j++) {
+            somaNotas += disciplinas[i].notas[j];
+        }
+        
+        float media = (qtdAlunos > 0) ? somaNotas / qtdAlunos : 0;
+        printf("Disciplina: %s\n", disciplinas[i].nome);
+        printf(" - Total de alunos: %d\n", qtdAlunos);
+        printf(" - Média das médias: %.2f\n", media);
+
+        if (qtdAlunos > maiorAdesao) {
+            maiorAdesao = qtdAlunos;
+            disciplinaMaisPopular = disciplinas[i].nome;
+        }
+    }
+
+    printf("Total de alunos na turma: %d\n", totalAlunos);
+    printf("Disciplina com maior adesão: %s\n", disciplinaMaisPopular);
+}
+
+int main() {
+    Disciplina disciplinas[NUM_DISCIPLINAS];
+    inicializarDisciplinas(disciplinas);
+    registrarEscolha(disciplinas);
+    gerarRelatorio(disciplinas);
+    return 0;
+}
+
+
+
+
+//linguagem java
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Disciplina {
+    String nome;
+    ArrayList<Float> notas;
+
+    Disciplina(String nome) {
+        this.nome = nome;
+        this.notas = new ArrayList<>();
+    }
+
+    void adicionarNota(float nota) {
+        notas.add(nota);
+    }
+
+    float calcularMedia() {
+        float soma = 0;
+        for (float nota : notas) {
+            soma += nota;
+        }
+        return notas.size() > 0 ? soma / notas.size() : 0;
+    }
+
+    int getTotalAlunos() {
+        return notas.size();
+    }
+}
+
+public class RegistroDisciplinas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Disciplina[] disciplinas = {
+            new Disciplina("Cálculo de uma Variável"),
+            new Disciplina("Bases de Programação"),
+            new Disciplina("Modelagem de Novos Negócios"),
+            new Disciplina("Paradigmas de Linguagens de Programação")
+        };
+
+        while (true) {
+            System.out.println("\nEscolha sua Disciplina:");
+            System.out.println("1. Cálculo de uma Variável");
+            System.out.println("2. Bases de Programação");
+            System.out.println("3. Modelagem de Novos Negócios");
+            System.out.println("4. Paradigmas de Linguagens de Programação");
+            System.out.print("Escolha: ");
+            int escolha = scanner.nextInt();
+
+            if (escolha < 1 || escolha > 4) {
+                System.out.println("Escolha inválida. Tente novamente.");
+                continue;
+            }
+
+            System.out.print("Informe sua média em " + disciplinas[escolha - 1].nome + ": ");
+            float nota = scanner.nextFloat();
+            disciplinas[escolha - 1].adicionarNota(nota);
+
+            System.out.print("Registrar outro aluno? (s/n): ");
+            char continuar = scanner.next().charAt(0);
+            if (continuar == 'n' || continuar == 'N') break;
+        }
+
+        gerarRelatorio(disciplinas);
+    }
+
+    public static void gerarRelatorio(Disciplina[] disciplinas) {
+        int totalAlunos = 0;
+        int maiorAdesao = 0;
+        String disciplinaMaisPopular = "";
+
+        System.out.println("\nRelatório Estatístico:");
+        for (Disciplina disciplina : disciplinas) {
+            int qtdAlunos = disciplina.getTotalAlunos();
+            totalAlunos += qtdAlunos;
+            float media = disciplina.calcularMedia();
+
+            System.out.println("Disciplina: " + disciplina.nome);
+            System.out.println(" - Total de alunos: " + qtdAlunos);
+            System.out.println(" - Média das médias: " + String.format("%.2f", media));
+
+            if (qtdAlunos > maiorAdesao) {
+                maiorAdesao = qtdAlunos;
+                disciplinaMaisPopular = disciplina.nome;
+            }
+        }
+
+        System.out.println("Total de alunos na turma: " + totalAlunos);
+        System.out.println("Disciplina com maior adesão: " + disciplinaMaisPopular);
+    }
+}
+
+
